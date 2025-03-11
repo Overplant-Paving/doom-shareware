@@ -18,13 +18,10 @@
             text-transform: uppercase;
             margin-bottom: 20px;
         }
-        .game-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        canvas {
-            width: 100%;
+        #dosbox {
+            width: 800px;
             height: 600px;
+            margin: 0 auto;
             border: 3px solid #333;
         }
         .controls {
@@ -43,15 +40,11 @@
 <body>
     <h1>Doom Shareware (1993)</h1>
     
-    <div class="game-container">
-        <div id="canvas_container">
-            <canvas id="canvas"></canvas>
-        </div>
-        
-        <div class="controls">
-            <p>Controls: WASD to move, Mouse to look, Click to shoot</p>
-            <p>Press ESC for menu</p>
-        </div>
+    <div id="dosbox"></div>
+    
+    <div class="controls">
+        <p>Controls: Arrow keys to move, Ctrl to shoot, Alt to strafe, Space to use</p>
+        <p>Press ESC for menu</p>
     </div>
     
     <footer>
@@ -59,31 +52,18 @@
         <p>This is the shareware version which is freely distributable.</p>
     </footer>
 
-    <!-- Load JS-DOS library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-dos/6.22.60/js-dos.js"></script>
+    <!-- EmulatorJS (more reliable than js-dos for this purpose) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emulatorjs/3.1.0/loader.js"></script>
     <script>
-        const canvas = document.getElementById("canvas");
+        // EmulatorJS configuration
+        EJS_player = "#dosbox";
+        EJS_gameName = "DOOM Shareware";
+        EJS_color = "#ff0000";
+        EJS_pathtodata = "https://cdn.emulatorjs.org/v3/";
+        EJS_core = "dosbox";
         
-        // DOS configuration
-        const dosConfig = {
-            wdosboxUrl: "https://js-dos.com/6.22/current/wdosbox.js",
-            cycles: "max",
-            autolock: true
-        };
-        
-        // Initialize DOS
-        Dos(canvas, dosConfig)
-            .ready((fs, main) => {
-                // Extract the Doom files when ready
-                fs.extract("https://cdn.jsdelivr.net/gh/Overplant-Paving/doom-shareware@main/doom-shareware.zip")
-                    .then(() => {
-                        main(["-c", "cd doom && doom.exe"])
-                            .then((ci) => {
-                                window.ci = ci;
-                                console.log("Doom started!");
-                            });
-                    });
-            });
+        // This needs to point to your doom.zip file in your repository
+        EJS_gameUrl = "doom.zip"; 
     </script>
 </body>
 </html>
