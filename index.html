@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Doom Shareware</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #ff0000;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        canvas {
+            width: 100%;
+            height: 600px;
+            border: 3px solid #333;
+        }
+        .controls {
+            margin-top: 20px;
+            background: #222;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        footer {
+            margin-top: 40px;
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Doom Shareware (1993)</h1>
+    
+    <div class="game-container">
+        <div id="canvas_container">
+            <canvas id="canvas"></canvas>
+        </div>
+        
+        <div class="controls">
+            <p>Controls: WASD to move, Mouse to look, Click to shoot</p>
+            <p>Press ESC for menu</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>DOOM is a registered trademark of id Software LLC, a ZeniMax Media company.</p>
+        <p>This is the shareware version which is freely distributable.</p>
+    </footer>
+
+    <!-- Load JS-DOS library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-dos/6.22.60/js-dos.js"></script>
+    <script>
+        const canvas = document.getElementById("canvas");
+        
+        // DOS configuration
+        const dosConfig = {
+            wdosboxUrl: "https://js-dos.com/6.22/current/wdosbox.js",
+            cycles: "max",
+            autolock: true
+        };
+        
+        // Initialize DOS
+        Dos(canvas, dosConfig)
+            .ready((fs, main) => {
+                // Extract the Doom files when ready
+                fs.extract("https://cdn.jsdelivr.net/gh/YOUR_USERNAME/YOUR_REPO@main/doom-shareware.zip")
+                    .then(() => {
+                        main(["-c", "cd doom && doom.exe"])
+                            .then((ci) => {
+                                window.ci = ci;
+                                console.log("Doom started!");
+                            });
+                    });
+            });
+    </script>
+</body>
+</html>
