@@ -75,7 +75,7 @@
         Dos(canvas, dosConfig)
             .ready((fs, main) => {
                 // Extract the Doom files when ready
-                fs.extract("https://cdn.jsdelivr.net/gh/YOUR_USERNAME/YOUR_REPO@main/doom-shareware.zip")
+                fs.extract("https://cdn.jsdelivr.net/gh/Overplant-Paving/doom-shareware@main/doom-shareware.zip")
                     .then(() => {
                         main(["-c", "cd doom && doom.exe"])
                             .then((ci) => {
